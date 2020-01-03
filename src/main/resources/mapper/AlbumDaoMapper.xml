@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.AlbumDao">
+    <select id="selectAll" resultType="Album">
+        select id,title,img,score,author,broadcaster,count,brief,create_date,status from album limit #{page},#{rows}
+    </select>
+    <select id="select" resultType="Album">
+        select id,title,img,score,author,broadcaster,count,brief,create_date,status from album
+    </select>
+    <select id="selectCount" resultType="Integer">
+        select COUNT(id) from album
+    </select>
+    <insert id="insertAlbum" parameterType="Album">
+        insert into album(ID, TITLE, IMG, SCORE, AUTHOR, BROADCASTER, COUNT, BRIEF, CREATE_DATE, STATUS) values (#{id},#{title},#{img},#{score},#{author},#{broadcaster},0,#{brief},#{create_date},#{status})
+    </insert>
+    <update id="updataAlbum" parameterType="Album">
+        update album
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="img!=null">
+                img=#{img},
+            </if>
+            <if test="score!=null">
+                score=#{score},
+            </if>
+            <if test="author!=null">
+                author=#{author},
+            </if>
+            <if test="broadcaster!=null">
+                broadcaster=#{broadcaster},
+            </if>
+            <if test="count!=null">
+                count=#{count},
+            </if>
+            <if test="brief!=null">
+                brief=#{brief},
+            </if>
+            <if test="create_date!=null">
+                create_date=#{create_date},
+            </if>
+            <if test="status!=null">
+                status=#{status}
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+    <delete id="deleteAlbum">
+        delete from album where id in
+        <!-- 遍历参数传过来的数组或集合 -->
+        <foreach collection="array" open="(" item="id" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <!--添加专辑文章后数量加-->
+    <update id="updataAddCount">
+        update album set COUNT=COUNT+1 where ID=#{id}
+    </update>
+    <!--删除专辑文章后数量减-->
+    <update id="updataDeleteCount">
+        update album set COUNT=COUNT-#{count} where ID=#{id}
+    </update>
+</mapper>

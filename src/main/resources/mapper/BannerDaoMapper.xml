@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.BannerDao">
+    <select id="selectAll" resultType="Banner">
+        select ID,TITLE,IMG,CREATE_DATE,STATUS from banner where ID not like concat('%!!%') limit #{page},#{rows}
+    </select>
+    <select id="queryAll" resultType="Banner">
+        select ID,TITLE,IMG,CREATE_DATE,STATUS from banner
+    </select>
+    <select id="selectCount" resultType="Integer">
+        select COUNT(id) from banner where ID not like concat('%!!%')
+    </select>
+    <insert id="InsertOne" parameterType="Banner">
+        insert into banner(id,title,img,create_Date,status) values(#{id},#{title},#{img},#{create_date},#{status})
+    </insert>
+    <update id="updataBanner" parameterType="Banner">
+        update banner
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="img!=null">
+                img=#{img},
+            </if>
+            <if test="create_date!=null">
+                create_date=#{create_date},
+            </if>
+            <if test="status!=null">
+                status=#{status}
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+    <delete id="deleteBanner">
+        delete from banner where id in
+        <!-- 遍历参数传过来的数组或集合 -->
+        <foreach collection="array" open="(" item="id" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectAllbyStatus" resultType="Banner">
+        select ID,TITLE,IMG,CREATE_DATE,STATUS from banner where STATUS='激活' order by CREATE_DATE desc
+    </select>
+    <select id="selectByMonth" resultType="MontnDto">
+        SELECT
+            SUM(CASE WHEN MONTH(CREATE_DATE) =1 THEN 1 ELSE 0 END) jan,
+            SUM(CASE WHEN MONTH(CREATE_DATE) =2 THEN 1 ELSE 0 END) feb,
+            SUM(CASE WHEN MONTH(CREATE_DATE) =3 THEN 1 ELSE 0 END) mar,
+            SUM(CASE WHEN MONTH(CREATE_DATE) =4 THEN 1 ELSE 0 END) apr,
+            SUM(CASE WHEN MONTH(CREATE_DATE) =5 THEN 1 ELSE 0 END) may,
+            SUM(CASE WHEN MONTH(CREATE_DATE) =6 THEN 1 ELSE 0 END) jun,
+            SUM(CASE WHEN MONTH(CREATE_DATE) =7 THEN 1 ELSE 0 END) jul,
+            SUM(CASE WHEN MONTH(CREATE_DATE) =8 THEN 1 ELSE 0 END) aug,
+            SUM(CASE WHEN MONTH(CREATE_DATE) =9 THEN 1 ELSE 0 END) sept,
+            SUM(CASE WHEN MONTH(CREATE_DATE) =10 THEN 1 ELSE 0 END) oct,
+            SUM(CASE WHEN MONTH(CREATE_DATE) =11 THEN 1 ELSE 0 END) nov,
+            SUM(CASE WHEN MONTH(CREATE_DATE) =12 THEN 1 ELSE 0 END) decr
+        FROM banner WHERE YEAR(CREATE_DATE) = YEAR(NOW( ))
+    </select>
+    <select id="selectByday" resultType="int">
+        select ifnull(b.count,0) as count
+from (
+    SELECT curdate() as create_date
+    union all
+    SELECT date_sub(curdate(), interval 1 day) as create_date
+    union all
+    SELECT date_sub(curdate(), interval 2 day) as create_date
+    union all
+    SELECT date_sub(curdate(), interval 3 day) as create_date
+    union all
+    SELECT date_sub(curdate(), interval 4 day) as create_date
+    union all
+    SELECT date_sub(curdate(), interval 5 day) as create_date
+    union all
+    SELECT date_sub(curdate(), interval 6 day) as create_date
+) a left join (
+  select date(create_date) as create_date, count(*) as count
+  from banner
+  group by date(create_date)
+) b on a.create_date = b.create_date;
+    </select>
+</mapper>

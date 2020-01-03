@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDao" >
+  <sql id="Base_Column_List" >
+    ID, PHONE_NUMBER, PASSWORD, NAME, DHARMA, HEAD_IMG, SEX, ADDRESS, SIGN, GURU_ID, 
+    LAST_DATE, CREATE_DATE, STATUS, SALT, OTHER
+  </sql>
+  <select id="selectByname" resultType="User">
+    select
+    <include refid="Base_Column_List"/>
+    from cmfz.t_user where PHONE_NUMBER = #{phone}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_user
+    where ID = #{id}
+  </delete>
+  <insert id="insert" parameterType="User" >
+    insert into t_user
+    values (#{id,jdbcType=VARCHAR}, #{phone_number,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{dharma,jdbcType=VARCHAR}, #{head_img,jdbcType=VARCHAR},
+      #{sex,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, 
+      #{guru_id,jdbcType=VARCHAR}, #{last_date,jdbcType=DATE}, #{create_date,jdbcType=DATE},
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="User" >
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="phone_number != null" >
+        PHONE_NUMBER,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="dharma != null" >
+        DHARMA,
+      </if>
+      <if test="head_img != null" >
+        HEAD_IMG,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="sign != null" >
+        SIGN,
+      </if>
+      <if test="guru_id != null" >
+        GURU_ID,
+      </if>
+      <if test="last_date != null" >
+        LAST_DATE,
+      </if>
+      <if test="create_date != null" >
+        CREATE_DATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="salt != null" >
+        SALT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="phone_number != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="dharma != null" >
+        #{dharma,jdbcType=VARCHAR},
+      </if>
+      <if test="head_img != null" >
+        #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="guru_id != null" >
+        #{guruId,jdbcType=VARCHAR},
+      </if>
+      <if test="last_date != null" >
+        #{lastDate,jdbcType=DATE},
+      </if>
+      <if test="create_date != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="User" >
+    update t_user
+    <set >
+      <if test="phone_number != null" >
+        PHONE_NUMBER = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="dharma != null" >
+        DHARMA = #{dharma,jdbcType=VARCHAR},
+      </if>
+      <if test="head_img != null" >
+        HEAD_IMG = #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        SIGN = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="guru_id != null" >
+        GURU_ID = #{guruId,jdbcType=VARCHAR},
+      </if>
+      <if test="last_date != null" >
+        LAST_DATE = #{lastDate,jdbcType=DATE},
+      </if>
+      <if test="create_date != null" >
+        CREATE_DATE = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        SALT = #{salt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="User" >
+    update t_user
+    set PHONE_NUMBER = #{phone_number,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      DHARMA = #{dharma,jdbcType=VARCHAR},
+      HEAD_IMG = #{head_img,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      SIGN = #{sign,jdbcType=VARCHAR},
+      GURU_ID = #{guru_id,jdbcType=VARCHAR},
+      LAST_DATE = #{last_date,jdbcType=DATE},
+      CREATE_DATE = #{create_date,jdbcType=DATE},
+      STATUS = #{status,jdbcType=VARCHAR},
+      SALT = #{salt,jdbcType=VARCHAR},
+      OTHER = #{other,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
