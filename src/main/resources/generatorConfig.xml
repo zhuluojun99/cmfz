@@ -47,7 +47,7 @@
                tableName : 数据库中的表名
                domainObjectName : 实体类的名
          -->
-        <table tableName="t_user" domainObjectName="User"
+        <table tableName="permission" domainObjectName="PermDto"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

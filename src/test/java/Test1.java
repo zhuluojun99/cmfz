@@ -26,6 +26,14 @@ public class Test1 {
     }
 
     @Test
+    public void test9() {
+        List<Admin> querycommon = adminDao.querycommon(1, 2);
+        for (Admin admin : querycommon) {
+            System.out.println(admin);
+        }
+    }
+
+    @Test
     public void test2(){
         List<Banner> banners = bannerDao.selectAll(0,3);
         for (Banner banner : banners) {

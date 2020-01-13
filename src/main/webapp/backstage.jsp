@@ -2,6 +2,7 @@
 <%@page pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <html lang="en">
 <head>
@@ -68,8 +69,16 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">欢迎:  ${sessionScope.admin.username}</a></li>
-                <li><a href="${path}/Admin/logout">退出登录  <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
+                <shiro:authenticated>
+                    <li><a href="#">欢迎: <shiro:principal></shiro:principal></a></li>
+                    <li><a href="${path}/Admin/logout">退出登录 <span class="glyphicon glyphicon-log-out"
+                                                                  aria-hidden="true"></span></a></li>
+                </shiro:authenticated>
+                <shiro:notAuthenticated>
+                    <li><a href="#">欢迎: 访问者</a></li>
+                    <li><a href="${path}/login.jsp">点击登录 <span class="glyphicon glyphicon-log-out"
+                                                               aria-hidden="true"></span></a></li>
+                </shiro:notAuthenticated>
             </ul>
         </div>
     </div>
@@ -77,70 +86,91 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-2">
-            <div class="panel-group" id="panel-469724">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-469724" href="#panel-element-984020"><center>用户管理</center></a>
-                    </div>
-                    <div id="panel-element-984020" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <center><button type="button" class="btn btn-danger" href="${pageContext.request.contextPath}/User/QueryAll"  onclick="init()" id="button" data-toggle="tab">用户管理</button></center>
+            <shiro:hasRole name="admin">
+                <div class="panel-group" id="panel-469724">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a class="panel-title" data-toggle="collapse" data-parent="#panel-469724" href="#panel-element-984020"><center>用户管理</center></a>
+                        </div>
+                        <div id="panel-element-984020" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <center><button type="button" class="btn btn-danger" href="${pageContext.request.contextPath}/User/QueryAll"  onclick="init()" id="button" data-toggle="tab">用户管理</button></center>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-469724" href="#panel-element-688647"><center>上师管理</center></a>
-                    </div>
-                    <div id="panel-element-688647" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <center><button type="button" class="btn btn-danger">上师管理</button></center>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a class="panel-title" data-toggle="collapse" data-parent="#panel-469724" href="#panel-element-688647"><center>上师管理</center></a>
+                        </div>
+                        <div id="panel-element-688647" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <center><button type="button" class="btn btn-danger">上师管理</button></center>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-469724" href="#panel-element-688649"><center>文章管理</center></a>
-                    </div>
-                    <div id="panel-element-688649" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <center>
-                                <button class="btn btn-danger">
-                                    <a href="javascript:$('#divss').load('${path}/article.jsp')">文章管理</a>
-                                </button>
-                            </center>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a class="panel-title" data-toggle="collapse" data-parent="#panel-469724" href="#panel-element-688649"><center>文章管理</center></a>
+                        </div>
+                        <div id="panel-element-688649" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <center>
+                                    <button class="btn btn-danger">
+                                        <a href="javascript:$('#divss').load('${path}/article.jsp')">文章管理</a>
+                                    </button>
+                                </center>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-469724" href="#panel-element-688640"><center>专辑管理</center></a>
-                    </div>
-                    <div id="panel-element-688640" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <center>
-                            <button class="btn btn-danger">
-                                <a href="javascript:$('#divss').load('${path}/album.jsp')">专辑列表</a>
-                            </button>
-                            </center>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a class="panel-title" data-toggle="collapse" data-parent="#panel-469724" href="#panel-element-688640"><center>专辑管理</center></a>
+                        </div>
+                        <div id="panel-element-688640" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <center>
+                                    <button class="btn btn-danger">
+                                        <a href="javascript:$('#divss').load('${path}/album.jsp')">专辑列表</a>
+                                    </button>
+                                </center>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-469724" href="#panel-element-6886400"><center>轮播图管理</center></a>
-                    </div>
-                    <div id="panel-element-6886400" class="panel-collapse collapse">
-                        <div class="panel-body">
-                        <center>
-                            <button class="btn btn-danger">
-                                <a href="javascript:$('#divss').load('${path}/banner.jsp')">轮播图管理</a>
-                            </button>
-                        </center>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a class="panel-title" data-toggle="collapse" data-parent="#panel-469724" href="#panel-element-6886400"><center>轮播图管理</center></a>
+                        </div>
+                        <div id="panel-element-6886400" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <center>
+                                    <button class="btn btn-danger">
+                                        <a href="javascript:$('#divss').load('${path}/banner.jsp')">轮播图管理</a>
+                                    </button>
+                                </center>
+                            </div>
                         </div>
                     </div>
+                    <shiro:hasPermission name="admin:*">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a class="panel-title" data-toggle="collapse" data-parent="#panel-469724"
+                                   href="#panel-element-6886401">
+                                    <center>admin管理</center>
+                                </a>
+                            </div>
+                            <div id="panel-element-6886401" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <center>
+                                        <button class="btn btn-danger">
+                                            <a href="javascript:$('#divss').load('${path}/admin.jsp')">admin管理</a>
+                                        </button>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </shiro:hasPermission>
                 </div>
-            </div>
+            </shiro:hasRole>
         </div>
         <div class="col-sm-10" id="divss">
             <div id="huany" class="container">
@@ -184,8 +214,12 @@
 
 
     <nav class="navbar navbar-default navbar-fixed-bottom">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${path}/Admin/adminOut"><button class="btn btn-primary">导出管理员信息</button></a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${path}/Banner/bannerOut"><button class="btn btn-primary">导出轮播图</button></a>
+        <shiro:hasRole name="SuperdAdmin">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${path}/Admin/adminOut"><button class="btn btn-primary">导出管理员信息</button></a>
+        </shiro:hasRole>
+        <shiro:hasRole name="admin">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${path}/Banner/bannerOut"><button class="btn btn-primary">导出轮播图</button></a>
+        </shiro:hasRole>
         <div id="kio"  class="container">
            <center>百知教育baizhi@zparkhr.com.cn</center>
         </div>

@@ -8,4 +8,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD) //使用在方法上
 @Retention(RetentionPolicy.RUNTIME) //运行时生效
 
-public @interface clearCaChe {}
+public @interface ClearCache {
+}
